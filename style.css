@@ -1,0 +1,612 @@
+/* ==========================================================================
+   CSS VARIABLES & DESIGN TOKENS
+   ========================================================================== */
+:root {
+  --canvas-bg: #efe8dc;
+  --paper-cream: #fbf9f4;
+  --paper-border: rgba(184, 134, 11, 0.28);
+  
+  --envelope-outer: #e6dcce;
+  --envelope-inner: #d7cab8;
+  --envelope-crease: rgba(0, 0, 0, 0.08);
+
+  --wax-dark: #6e4200;
+  --wax-mid: #b8860b;
+  --wax-gold: #f5c442;
+  --wax-bright: #ffe694;
+
+  --text-primary: #2b2723;
+  --text-muted: #6e675f;
+  --gold-accent: #9a6f11;
+  --gold-foil: linear-gradient(135deg, #a67c1e 0%, #f7dc87 50%, #8f6511 100%);
+  
+  --shadow-realistic: 
+    0 20px 40px -15px rgba(44, 30, 16, 0.25),
+    0 0 1px 1px rgba(255, 255, 255, 0.4) inset;
+  
+  --transition-smooth: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ==========================================================================
+   GLOBAL RESET & ENVIRONMENT
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: var(--canvas-bg);
+  background-image: 
+    radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(228, 218, 204, 0.9) 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.012) 0px, rgba(0,0,0,0.012) 2px, transparent 2px, transparent 4px);
+  color: var(--text-primary);
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#sparkle-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Central Stage Container */
+.stage-viewport {
+  width: 100%;
+  max-width: 600px;
+  padding: 40px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1400px;
+}
+
+.envelope-scene {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ==========================================================================
+   ENVELOPE ASSEMBLY & 3D STRUCTURE
+   ========================================================================== */
+.envelope {
+  width: 100%;
+  height: 280px;
+  background-color: var(--envelope-outer);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: var(--shadow-realistic);
+  cursor: pointer;
+  perspective: 1200px;
+  transition: transform 0.8s var(--transition-smooth);
+}
+
+/* Top Triangle Flap */
+.flap.top-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid transparent;
+  border-right: 220px solid transparent;
+  border-top: 155px solid var(--envelope-outer);
+  transform-origin: top center;
+  z-index: 5;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.3s;
+}
+
+/* Side Pockets */
+.flap.left-flap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid var(--envelope-inner);
+  border-top: 140px solid transparent;
+  border-bottom: 140px solid var(--envelope-inner);
+  z-index: 3;
+}
+
+.flap.right-flap {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-right: 220px solid var(--envelope-inner);
+  border-top: 140px solid transparent;
+  border-bottom: 140px solid var(--envelope-inner);
+  z-index: 3;
+}
+
+.envelope-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid transparent;
+  border-right: 220px solid transparent;
+  border-bottom: 150px solid var(--envelope-outer);
+  z-index: 4;
+}
+
+/* ==========================================================================
+   PHOTOREALISTIC 3D WAX SEAL
+   ========================================================================== */
+.wax-seal {
+  position: absolute;
+  top: 125px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--wax-bright) 0%, var(--wax-gold) 45%, var(--wax-mid) 75%, var(--wax-dark) 100%);
+  box-shadow: 
+    0 8px 18px rgba(35, 23, 7, 0.4),
+    inset 0 3px 5px rgba(255, 255, 255, 0.7),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.5s ease;
+}
+
+.wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.seal-inner {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 238, 179, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(71, 41, 0, 0.45);
+}
+
+.seal-monogram {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #3b2203;
+  text-shadow: 1px 1px 1px rgba(255, 240, 190, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1.5px;
+}
+
+.interaction-hint {
+  margin-top: 35px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: pulseHint 2s infinite ease-in-out;
+  cursor: pointer;
+}
+
+.hint-sparkle {
+  color: var(--gold-accent);
+}
+
+/* ==========================================================================
+   THE LUXURY WEDDING INVITATION CARD (SLIDE-OUT SHEET)
+   ========================================================================== */
+.letter-sheet {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0) scale(0.92);
+  width: 92%;
+  max-width: 410px;
+  background-color: var(--paper-cream);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, rgba(245, 237, 222, 0.4) 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 0, 0, 0.008) 1px, rgba(0, 0, 0, 0.008) 3px);
+  border-radius: 12px;
+  padding: 40px 24px 34px;
+  border: 1px solid var(--paper-border);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+  text-align: center;
+  transition: 
+    transform 1.2s var(--transition-smooth), 
+    opacity 0.7s ease, 
+    box-shadow 1s ease;
+}
+
+/* ==========================================================================
+   CARD INTERIOR TYPOGRAPHY & LAYOUT
+   ========================================================================== */
+.card-ornament {
+  font-size: 1rem;
+  color: var(--gold-accent);
+  letter-spacing: 5px;
+  margin-bottom: 12px;
+}
+
+.scripture-block {
+  margin-bottom: 20px;
+}
+
+.scripture {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--gold-accent);
+  line-height: 1.4;
+}
+
+.scripture-ref {
+  display: block;
+  font-size: 0.72rem;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.family-section {
+  margin: 12px 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.family-line {
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+}
+
+.family-address {
+  font-weight: 400;
+}
+
+.solicit-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+  margin: 20px 0 14px;
+}
+
+.couple-title {
+  margin: 16px 0;
+}
+
+.person-name {
+  font-family: 'Alex Brush', cursive;
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1.15;
+  color: #1a1714;
+}
+
+.connector {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: var(--gold-accent);
+  margin: 2px 0;
+}
+
+/* Elegant Date Centerpiece */
+.date-showcase {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid var(--paper-border);
+  border-bottom: 1px solid var(--paper-border);
+  padding: 12px 6px;
+  margin: 24px 0 20px;
+}
+
+.date-segment {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}
+
+.date-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--gold-accent);
+}
+
+.month-year {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.venue-info {
+  margin: 18px 0 10px;
+}
+
+.venue-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.venue-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.auspices-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 12px 0 16px;
+}
+
+.compliments-note {
+  font-size: 0.75rem;
+  color: var(--gold-accent);
+  line-height: 1.5;
+  margin-bottom: 26px;
+}
+
+.compliments-note strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Countdown Grid */
+.countdown-module {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.timer-box {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--paper-border);
+  border-radius: 8px;
+  padding: 8px 6px;
+  min-width: 62px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.timer-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold-accent);
+  display: block;
+}
+
+.timer-tag {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* Interactive Action Buttons */
+.action-dock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--gold-foil);
+  color: #271a02;
+  box-shadow: 0 4px 14px rgba(184, 134, 11, 0.25);
+}
+
+.btn-calendar {
+  background: #ffffff;
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.btn-whatsapp {
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+}
+
+/* ==========================================================================
+   ACTIVE / OPENED INTERACTIVE STATES
+   ========================================================================== */
+.envelope.is-open {
+  box-shadow: none;
+  background-color: transparent;
+  cursor: default;
+}
+
+.envelope.is-open .top-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.is-open .wax-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+  pointer-events: none;
+}
+
+.envelope.is-open .flap.left-flap,
+.envelope.is-open .flap.right-flap,
+.envelope.is-open .envelope-body,
+.envelope.is-open .top-flap {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.5s;
+}
+
+.envelope.is-open .letter-sheet {
+  position: relative;
+  transform: translateX(-50%) translateY(-120px) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 20;
+  box-shadow: 0 25px 60px -10px rgba(44, 30, 16, 0.22);
+}
+
+.envelope.is-open ~ .interaction-hint {
+  display: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN & DESKTOP ADAPTATION
+   ========================================================================== */
+@keyframes pulseHint {
+  0%, 100% { opacity: 0.6; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
+@media (min-width: 768px) {
+  .envelope-scene {
+    max-width: 500px;
+  }
+  .envelope {
+    height: 310px;
+  }
+  .flap.top-flap {
+    border-left-width: 250px;
+    border-right-width: 250px;
+    border-top-width: 175px;
+  }
+  .flap.left-flap {
+    border-left-width: 250px;
+    border-top-width: 155px;
+    border-bottom-width: 155px;
+  }
+  .flap.right-flap {
+    border-right-width: 250px;
+    border-top-width: 155px;
+    border-bottom-width: 155px;
+  }
+  .envelope-body {
+    border-left-width: 250px;
+    border-right-width: 250px;
+    border-bottom-width: 165px;
+  }
+  .letter-sheet {
+    max-width: 460px;
+    padding: 48px 34px 40px;
+  }
+  .person-name {
+    font-size: 3.3rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .envelope {
+    height: 240px;
+  }
+  .flap.top-flap {
+    border-left-width: 175px;
+    border-right-width: 175px;
+    border-top-width: 130px;
+  }
+  .flap.left-flap {
+    border-left-width: 175px;
+    border-top-width: 120px;
+    border-bottom-width: 120px;
+  }
+  .flap.right-flap {
+    border-right-width: 175px;
+    border-top-width: 120px;
+    border-bottom-width: 120px;
+  }
+  .envelope-body {
+    border-left-width: 175px;
+    border-right-width: 175px;
+    border-bottom-width: 130px;
+  }
+  .wax-seal {
+    width: 78px;
+    height: 78px;
+    top: 110px;
+  }
+  .seal-inner {
+    width: 62px;
+    height: 62px;
+  }
+  .seal-monogram {
+    font-size: 1.35rem;
+  }
+  .letter-sheet {
+    padding: 30px 18px 24px;
+  }
+  .person-name {
+    font-size: 2.3rem;
+  }
+}
