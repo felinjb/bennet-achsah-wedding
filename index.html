@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bennet &amp; Achsah — Wedding Invitation</title>
+
+  <!-- Open Graph Meta Tags for WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bennet Jacob &amp; Achsah Saji — Wedding Invitation 💍" />
+  <meta property="og:description" content="We solicit your prayers and presence. Tap to open the interactive invitation." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-cream: #f4ede4;
+      --env-outer: #dfd4c5;
+      --env-inner: #cebeaa;
+      --env-shadow: rgba(43, 31, 23, 0.18);
+      --card-bg: #fffdf9;
+      --gold-primary: #b8860b;
+      --gold-deep: #8f6200;
+      --gold-light: #ffd700;
+      --gold-gradient: linear-gradient(135deg, #c59b27, #f3e08c, #c59b27);
+      --text-dark: #22201e;
+      --text-muted: #5e5a56;
+      --emerald: #1b4332;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #fbf7f0 0%, #ece2d2 100%);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      perspective: 1200px;
+      padding: 20px 10px;
+    }
+
+    /* Ambient Gold Dust Canvas */
+    #sparkle-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .invitation-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Envelope Container */
+    .envelope-box {
+      position: relative;
+      width: 360px;
+      height: 240px;
+      background: var(--env-outer);
+      border-radius: 6px;
+      box-shadow: 0 25px 50px -12px var(--env-shadow);
+      perspective: 1000px;
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Flap Top */
+    .flap-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 180px solid transparent;
+      border-right: 180px solid transparent;
+      border-top: 135px solid var(--env-outer);
+      transform-origin: top center;
+      transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.3s;
+      z-index: 5;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+    }
+
+    /* Pocket Left & Right */
+    .pocket-left {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 180px solid var(--env-inner);
+      border-top: 120px solid transparent;
+      border-bottom: 120px solid var(--env-inner);
+      z-index: 3;
+    }
+
+    .pocket-right {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-right: 180px solid var(--env-inner);
+      border-top: 120px solid transparent;
+      border-bottom: 120px solid var(--env-inner);
+      z-index: 3;
+    }
+
+    .pocket-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 180px solid transparent;
+      border-right: 180px solid transparent;
+      border-bottom: 130px solid var(--env-outer);
+      z-index: 4;
+    }
+
+    /* Realistic 3D Wax Seal */
+    .wax-seal {
+      position: absolute;
+      top: 105px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffd479 0%, #b8860b 55%, #6e4800 100%);
+      box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.6),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
+    }
+
+    .wax-seal:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .seal-rim {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 245, 205, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .seal-monogram {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: #3b2302;
+      text-shadow: 1px 1px 1px rgba(255, 235, 170, 0.8), -1px -1px 1px rgba(0,0,0,0.4);
+      letter-spacing: 1px;
+    }
+
+    .hint-label {
+      margin-top: 30px;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      animation: pulse 2s infinite ease-in-out;
+      cursor: pointer;
+    }
+
+    /* Wedding Card */
+    .wedding-card {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px) scale(0.9);
+      width: 340px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 34px 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      border: 1px solid rgba(184, 134, 11, 0.25);
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+      transition: 
+        transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.6s ease;
+      text-align: center;
+    }
+
+    /* Card Opened State */
+    .envelope-box.opened .flap-top {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-box.opened .wax-seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.4);
+      pointer-events: none;
+    }
+
+    .envelope-box.opened .hint-label {
+      display: none;
+    }
+
+    .envelope-box.opened {
+      box-shadow: none;
+      background: transparent;
+      cursor: default;
+    }
+
+    .envelope-box.opened .pocket-left,
+    .envelope-box.opened .pocket-right,
+    .envelope-box.opened .pocket-bottom,
+    .envelope-box.opened .flap-top {
+      opacity: 0;
+      transition: opacity 0.7s ease 0.4s;
+    }
+
+    .envelope-box.opened .wedding-card {
+      position: relative;
+      transform: translateX(-50%) translateY(-100px) scale(1.02);
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 20;
+      box-shadow: 0 25px 60px rgba(45, 33, 20, 0.18);
+    }
+
+    /* Inner Card Content Styling */
+    .ornament {
+      font-size: 1.1rem;
+      color: var(--gold-primary);
+      margin-bottom: 8px;
+    }
+
+    .scripture {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--gold-deep);
+      line-height: 1.35;
+      margin-bottom: 16px;
+    }
+
+    .family-block {
+      font-size: 0.73rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin: 10px 0;
+    }
+
+    .family-block strong {
+      color: var(--text-dark);
+      font-weight: 600;
+      display: block;
+    }
+
+    .solicit-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      margin: 16px 0 8px 0;
+    }
+
+    .couple-names {
+      margin: 14px 0;
+    }
+
+    .person-name {
+      font-family: 'Alex Brush', cursive;
+      font-size: 2.5rem;
+      line-height: 1.1;
+      color: #1a1a1a;
+      display: block;
+    }
+
+    .ampersand {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--gold-primary);
+      margin: 4px 0;
+    }
+
+    /* Date Badge */
+    .date-container {
+      margin: 18px 0;
+      padding: 10px 0;
+      border-top: 1px solid rgba(184, 134, 11, 0.3);
+      border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .date-col {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      color: var(--text-dark);
+    }
+
+    .date-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--gold-deep);
+    }
+
+    .venue-box {
+      font-size: 0.72rem;
+      line-height: 1.45;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dark);
+      font-weight: 600;
+      margin: 16px 0 6px 0;
+    }
+
+    .church-notice {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .compliments {
+      font-size: 0.72rem;
+      color: var(--gold-deep);
+      font-style: italic;
+      margin-bottom: 22px;
+    }
+
+    /* Live Countdown */
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .count-cell {
+      background: #fbf8f2;
+      border: 1px solid rgba(184, 134, 11, 0.2);
+      border-radius: 6px;
+      padding: 6px 4px;
+      min-width: 54px;
+    }
+
+    .count-val {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-deep);
+    }
+
+    .count-lbl {
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    /* Action Buttons */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .act-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      text-decoration: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .act-btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-maps {
+      background: var(--gold-gradient);
+      color: #291a00;
+      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);
+    }
+
+    .btn-rsvp {
+      background: #25d366;
+      color: white;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+    }
+
+    .btn-cal {
+      background: transparent;
+      border: 1px solid var(--gold-deep);
+      color: var(--gold-deep);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-3px); }
+    }
+
+    @media (max-width: 400px) {
+      .envelope-box {
+        width: 320px;
+        height: 220px;
+      }
+      .flap-top {
+        border-left-width: 160px;
+        border-right-width: 160px;
+        border-top-width: 120px;
+      }
+      .pocket-left {
+        border-left-width: 160px;
+        border-top-width: 110px;
+        border-bottom-width: 110px;
+      }
+      .pocket-right {
+        border-right-width: 160px;
+        border-top-width: 110px;
+        border-bottom-width: 110px;
+      }
+      .pocket-bottom {
+        border-left-width: 160px;
+        border-right-width: 160px;
+        border-bottom-width: 115px;
+      }
+      .wedding-card {
+        width: 310px;
+        padding: 26px 16px;
+      }
+      .person-name {
+        font-size: 2.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Gold Particle Canvas -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <div class="invitation-wrapper">
+    <!-- Interactive Envelope -->
+    <div class="envelope-box" id="envelope">
+      <div class="flap-top"></div>
+      <div class="pocket-left"></div>
+      <div class="pocket-right"></div>
+      <div class="pocket-bottom"></div>
+
+      <!-- Wax Seal -->
+      <div class="wax-seal" id="seal">
+        <div class="seal-rim">
+          <div class="seal-monogram">B&amp;A</div>
+        </div>
+      </div>
+
+      <!-- Inner Wedding Invitation Card -->
+      <div class="wedding-card" id="card">
+        <div class="ornament">❧ ❦ ☙</div>
+        <p class="scripture">
+          “The Lord has made everything beautiful in his time”<br />
+          — Ecclesiastes 3:11
+        </p>
+
+        <div class="family-block">
+          <strong>S/o Mr. Shaju K.J &amp; Mrs. Shiji Shaju</strong>
+          Kollamkudiyil(H), Kunnackal P.O, Valakom, Muvattupuzha, Ernakulam
+        </div>
+
+        <p class="solicit-text">
+          Solicit your prayers and presence with your family on the occasion of the marriage of our son
+        </p>
+
+        <div class="couple-names">
+          <span class="person-name">Bennet Jacob Shaju</span>
+          <div class="ampersand">&amp;</div>
+          <span class="person-name">Achsah Saji</span>
+        </div>
+
+        <div class="family-block">
+          <strong>D/o Mr. Saji Samuel (Late) &amp; Mrs. Sheeba Saji</strong>
+          Saji Bhavan, Kumaramkarikkom, Kulathupuzha P.O, Kollam
+        </div>
+
+        <div class="date-container">
+          <div class="date-col">SATURDAY</div>
+          <div class="date-main">19<div style="font-size:0.75rem; letter-spacing:1px; text-transform:uppercase;">SEP 2026</div></div>
+          <div class="date-col">10:30 AM</div>
+        </div>
+
+        <div class="venue-box">
+          Warrier Foundation, Kaivalya Event Center<br />
+          Mazhuvannoor, Kolenchery, Ernakulam
+        </div>
+
+        <p class="church-notice">
+          Under the auspices of Ebenezer Brethren Church, Kunnackal<br />
+          and thereafter for the reception at the same venue
+        </p>
+
+        <p class="compliments">Best wishes &amp; compliments from Shalu, Femi &amp; Nathan</p>
+
+        <!-- Live Countdown -->
+        <div class="countdown-grid">
+          <div class="count-cell">
+            <div class="count-val" id="days">00</div>
+            <div class="count-lbl">Days</div>
+          </div>
+          <div class="count-cell">
+            <div class="count-val" id="hours">00</div>
+            <div class="count-lbl">Hours</div>
+          </div>
+          <div class="count-cell">
+            <div class="count-val" id="mins">00</div>
+            <div class="count-lbl">Mins</div>
+          </div>
+          <div class="count-cell">
+            <div class="count-val" id="secs">00</div>
+            <div class="count-lbl">Secs</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <!-- Google Maps Link -->
+          <a class="act-btn btn-maps" href="https://www.google.com/maps/search/?api=1&query=Warrier+Foundation+Kaivalya+Event+Center+Mazhuvannoor" target="_blank" rel="noopener">
+            📍 Open Venue in Google Maps
+          </a>
+
+          <!-- Direct Google Calendar Link -->
+          <a class="act-btn btn-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding:+Bennet+%26+Achsah&dates=20260919T050000Z/20260919T100000Z&details=Wedding+service+and+reception+at+Warrier+Foundation,+Kaivalya+Event+Center.&location=Warrier+Foundation+Kaivalya+Event+Center,+Mazhuvannoor" target="_blank" rel="noopener">
+            📅 Save to Calendar
+          </a>
+
+          <!-- WhatsApp RSVP Confirmation -->
+          <a class="act-btn btn-rsvp" href="https://wa.me/919999999999?text=Hi%20Bennet%20%26%20Achsah,%20we%20are%20delighted%20to%20confirm%20our%20presence%20at%20your%20wedding!" target="_blank" rel="noopener">
+            💬 Confirm Attendance via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint-label" id="hint">✦ Tap wax seal to open ✦</div>
+  </div>
+
+  <script>
+    // Envelope Opening Interaction
+    const envelope = document.getElementById('envelope');
+    const seal = document.getElementById('seal');
+    const hint = document.getElementById('hint');
+
+    function openEnvelope() {
+      if (!envelope.classList.contains('opened')) {
+        envelope.classList.add('opened');
+        launchSparkles();
+      }
+    }
+
+    seal.addEventListener('click', openEnvelope);
+    envelope.addEventListener('click', function(e) {
+      if (!envelope.classList.contains('opened')) {
+        openEnvelope();
+      }
+    });
+
+    // Countdown Logic (Target: Sept 19, 2026, 10:30 AM IST)
+    const weddingDate = new Date("2026-09-19T10:30:00+05:30").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("mins").innerText = "00";
+        document.getElementById("secs").innerText = "00";
+        return;
+      }
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = String(d).padStart(2, '0');
+      document.getElementById("hours").innerText = String(h).padStart(2, '0');
+      document.getElementById("mins").innerText = String(m).padStart(2, '0');
+      document.getElementById("secs").innerText = String(s).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Canvas Sparkle & Dust Effect
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 4 + 1;
+        this.speedX = (Math.random() - 0.5) * 8;
+        this.speedY = (Math.random() - 1.2) * 8;
+        this.opacity = 1;
+        this.color = `hsl(${Math.random() * 15 + 40}, 90%, 65%)`;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.speedY += 0.15; // gravity
+        this.opacity -= 0.015;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(this.opacity, 0);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = '#ffd700';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function launchSparkles() {
+      const rect = seal.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+
+      for (let i = 0; i < 70; i++) {
+        particles.push(new Particle(originX, originY));
+      }
+      animateParticles();
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].opacity <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+      if (particles.length > 0) {
+        requestAnimationFrame(animateParticles);
+      }
+    }
+  </script>
+</body>
+</html>
