@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invitation | Bennet & Achsah</title>
+  <title>The Wedding of Bennet & Achsah</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-cream: #faf7f2;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --text-main: #2b2b2b;
-      --text-muted: #555;
-      --periwinkle-light: #dbe4f0;
-      --periwinkle-soft: #a8bfe0;
-      --periwinkle-deep: #5474a6;
-      --gold-accent: #c29d59;
-      --font-body: 'Cormorant Garamond', Georgia, serif;
-      --font-script: 'Great Vibes', cursive;
+      --cream-bg: #faf7f2;
+      --paper-texture: #fcfbf9;
+      --text-dark: #2c2825;
+      --text-muted: #6b645c;
+      --gold-primary: #b89150;
+      --gold-light: #e6c88b;
+      --rose-water: rgba(226, 169, 178, 0.45);
+      --foliage-green: #48634a;
+      --font-display: 'Cinzel', serif;
+      --font-script: 'Alex Brush', cursive;
+      --font-body: 'Cormorant Garamond', serif;
       --font-sans: 'Montserrat', sans-serif;
     }
 
@@ -31,24 +32,15 @@
     }
 
     body {
-      background-color: var(--bg-cream);
+      background-color: var(--cream-bg);
       font-family: var(--font-body);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 15px;
-      position: relative;
+      color: var(--text-dark);
       overflow-x: hidden;
-      /* Soft watercolor background wash */
-      background-image: 
-        radial-gradient(circle at 10% 15%, rgba(168, 191, 224, 0.35) 0%, transparent 45%),
-        radial-gradient(circle at 90% 85%, rgba(168, 191, 224, 0.4) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Falling Petals Canvas */
+    /* Ambient Floating Canvas for Watercolor Petals */
     #petal-canvas {
       position: fixed;
       top: 0;
@@ -56,344 +48,496 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 99;
     }
 
-    /* Main Card Container */
-    .card-wrapper {
-      position: relative;
-      z-index: 2;
-      max-width: 620px;
-      width: 100%;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      padding: 50px 35px;
-      border-radius: 12px;
-      box-shadow: 0 20px 45px rgba(84, 116, 166, 0.12), 0 2px 10px rgba(0, 0, 0, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      text-align: center;
-      animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* ==========================================================
+       SECTION 1: CINEMATIC WATERCOLOR ARCH OPENER (SPLASH)
+       ========================================================== */
+    .opener-portal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #fff9f4 0%, #f3eae1 65%, #e6d5c6 100%);
+      transition: opacity 1.4s cubic-bezier(0.65, 0, 0.35, 1), transform 1.6s cubic-bezier(0.65, 0, 0.35, 1), visibility 1.4s;
+      overflow: hidden;
     }
 
-    /* Watercolor Corner Motifs */
-    .card-wrapper::before,
-    .card-wrapper::after {
-      content: "";
+    .opener-portal.unveiled {
+      opacity: 0;
+      transform: scale(1.14);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Watercolor Arch Frame & Vignette */
+    .arch-backdrop {
       position: absolute;
-      width: 130px;
-      height: 130px;
+      inset: 0;
+      pointer-events: none;
+      background:
+        /* Top Arch Canopy */
+        radial-gradient(ellipse at 50% -10%, rgba(122, 150, 114, 0.35) 0%, transparent 60%),
+        /* Left Column Flora */
+        radial-gradient(ellipse at -5% 50%, rgba(224, 159, 172, 0.45) 0%, rgba(125, 158, 122, 0.25) 35%, transparent 65%),
+        /* Right Column Flora */
+        radial-gradient(ellipse at 105% 50%, rgba(224, 159, 172, 0.45) 0%, rgba(125, 158, 122, 0.25) 35%, transparent 65%),
+        /* Sunlit Pathway Base */
+        linear-gradient(to top, rgba(234, 219, 203, 0.7) 0%, transparent 40%);
+    }
+
+    /* SVG Hand-Painted Architectural Silhouette */
+    .arch-svg-frame {
+      position: absolute;
+      width: 100%;
+      max-width: 720px;
+      height: 92vh;
       pointer-events: none;
       opacity: 0.85;
-      background-size: contain;
-      background-repeat: no-repeat;
+      stroke: var(--gold-primary);
+      stroke-width: 1.2;
+      fill: none;
+      filter: drop-shadow(0 8px 24px rgba(184, 145, 80, 0.18));
+      animation: archGlow 4s ease-in-out infinite alternate;
     }
 
-    .card-wrapper::before {
-      top: -15px;
-      left: -15px;
-      background-image: radial-gradient(circle at 30% 30%, #a8bfe0 0%, #c4d7ed 50%, transparent 70%);
-      filter: blur(8px);
+    @keyframes archGlow {
+      from { filter: drop-shadow(0 6px 16px rgba(184, 145, 80, 0.12)); }
+      to { filter: drop-shadow(0 14px 28px rgba(184, 145, 80, 0.26)); }
     }
 
-    .card-wrapper::after {
-      bottom: -15px;
-      right: -15px;
-      background-image: radial-gradient(circle at 70% 70%, #9cb7dc 0%, #d4e2f2 50%, transparent 70%);
-      filter: blur(8px);
+    .opener-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 0 20px;
+      max-width: 580px;
+      animation: gentleRise 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Text Styles & Hierarchy */
-    .verse {
-      font-style: italic;
-      font-size: 1.15rem;
-      line-height: 1.5;
+    .opener-tagline {
+      font-family: var(--font-sans);
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 5px;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    .verse span {
+    .opener-names {
+      font-family: var(--font-script);
+      font-size: clamp(3.2rem, 9vw, 5.2rem);
+      line-height: 1.1;
+      color: #1f1d1b;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.04);
+    }
+
+    .opener-ampersand {
       display: block;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
+      font-family: var(--font-script);
+      font-size: 2.8rem;
+      color: var(--gold-primary);
+      margin: -10px 0;
     }
 
-    .family-block {
+    .opener-date-badge {
+      font-family: var(--font-display);
       font-size: 1.15rem;
-      line-height: 1.6;
-      margin: 18px 0;
+      letter-spacing: 4px;
+      color: var(--gold-primary);
+      margin: 24px 0 38px;
     }
 
-    .parents {
+    /* Wax Seal Interactive Button */
+    .wax-seal-wrapper {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .wax-seal {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #e0b368 0%, #b88636 50%, #875c1d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      box-shadow: 0 10px 25px rgba(135, 92, 29, 0.38), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+      position: relative;
+    }
+
+    .wax-seal:hover {
+      transform: scale(1.08);
+      box-shadow: 0 14px 32px rgba(135, 92, 29, 0.48), inset 0 2px 5px rgba(255, 255, 255, 0.6);
+    }
+
+    .wax-seal::after {
+      content: 'B&A';
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #4a2e06;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.35);
+    }
+
+    .pulse-ring {
+      position: absolute;
+      top: -7px;
+      left: -7px;
+      right: -7px;
+      bottom: -7px;
+      border: 1px dashed var(--gold-primary);
+      border-radius: 50%;
+      animation: spinRing 22s linear infinite;
+    }
+
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    .seal-caption {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      margin-top: 14px;
+      transition: color 0.3s;
+    }
+
+    /* ==========================================================
+       SECTION 2: FULL INVITATION SUITE (REVEALED UNDERNEATH)
+       ========================================================== */
+    .invitation-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+
+    .card-deck {
+      max-width: 660px;
+      width: 100%;
+      background: var(--paper-texture);
+      border: 1px solid rgba(220, 205, 185, 0.6);
+      box-shadow: 0 24px 60px rgba(50, 40, 30, 0.09), 0 2px 10px rgba(0,0,0,0.02);
+      border-radius: 8px;
+      padding: 65px 45px;
+      position: relative;
+      text-align: center;
+      background-image: 
+        radial-gradient(circle at top right, rgba(226, 169, 178, 0.15), transparent 45%),
+        radial-gradient(circle at bottom left, rgba(168, 191, 224, 0.18), transparent 45%);
+    }
+
+    /* Decorative Gold Floral Filigree Border */
+    .card-deck::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(184, 145, 80, 0.3);
+      pointer-events: none;
+      border-radius: 4px;
+    }
+
+    .verse-header {
       font-style: italic;
-      font-weight: 600;
-      color: #1e1e1e;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 28px;
     }
 
-    .address {
+    .verse-ref {
+      display: block;
+      font-family: var(--font-display);
+      font-style: normal;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
+      margin-top: 6px;
+    }
+
+    .parents-section {
+      font-size: 1.15rem;
+      line-height: 1.65;
+      margin: 22px 0;
+    }
+
+    .parents-names {
+      font-weight: 600;
+      font-style: italic;
+      color: #1a1715;
+    }
+
+    .parents-place {
       font-style: italic;
       font-size: 1rem;
-      color: #555;
+      color: var(--text-muted);
     }
 
-    .invitation-call {
+    .invitation-honor {
       font-style: italic;
       font-size: 1.1rem;
       color: var(--text-muted);
-      margin: 22px 0 16px;
+      margin: 26px 0 18px;
+      line-height: 1.6;
     }
 
-    .names-section {
-      margin: 15px 0 25px;
+    .main-names-wrapper {
+      margin: 20px 0 30px;
     }
 
-    .couple-name {
+    .script-name {
       font-family: var(--font-script);
-      font-size: 3.4rem;
-      color: #1a1a1a;
-      line-height: 1.2;
-      font-weight: 400;
-      transition: transform 0.3s ease;
+      font-size: clamp(3rem, 7vw, 4.4rem);
+      line-height: 1.15;
+      color: #181615;
     }
 
-    .couple-name:hover {
-      transform: scale(1.03);
-    }
-
-    .ampersand {
+    .couple-joiner {
       font-family: var(--font-script);
-      font-size: 2.2rem;
-      color: var(--gold-accent);
-      margin: 5px 0;
+      font-size: 2.5rem;
+      color: var(--gold-primary);
+      margin: 6px 0;
       display: block;
     }
 
-    /* Date & Time Grid */
-    .event-schedule {
+    /* Date & Time Ribbon */
+    .schedule-bar {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 20px;
-      margin: 32px 0 26px;
-      padding: 16px 0;
-      border-top: 1px solid rgba(84, 116, 166, 0.25);
-      border-bottom: 1px solid rgba(84, 116, 166, 0.25);
+      margin: 36px 0 30px;
+      padding: 18px 0;
+      border-top: 1px solid rgba(184, 145, 80, 0.35);
+      border-bottom: 1px solid rgba(184, 145, 80, 0.35);
     }
 
-    .schedule-side {
-      font-family: var(--font-sans);
+    .schedule-day, .schedule-time {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      letter-spacing: 2px;
       font-weight: 600;
-      letter-spacing: 1.5px;
-      font-size: 0.9rem;
-      color: #222;
-      flex: 1;
+      color: #2b2520;
       text-transform: uppercase;
+      flex: 1;
     }
 
-    .schedule-center {
-      text-align: center;
-      padding: 0 15px;
-      border-left: 1px solid rgba(84, 116, 166, 0.2);
-      border-right: 1px solid rgba(84, 116, 166, 0.2);
+    .schedule-day { text-align: right; }
+    .schedule-time { text-align: left; }
+
+    .schedule-center-badge {
+      padding: 0 20px;
+      border-left: 1px solid rgba(184, 145, 80, 0.3);
+      border-right: 1px solid rgba(184, 145, 80, 0.3);
     }
 
-    .month-badge {
+    .cal-month {
       font-family: var(--font-sans);
+      font-weight: 600;
       font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: var(--periwinkle-deep);
+      letter-spacing: 3px;
+      color: var(--gold-primary);
     }
 
-    .date-num {
-      font-family: var(--font-sans);
-      font-size: 2.4rem;
-      font-weight: 600;
+    .cal-day {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 700;
       line-height: 1;
-      color: #111;
-      margin: 2px 0;
+      color: #1a1715;
+      margin: 3px 0;
     }
 
-    .year-badge {
+    .cal-year {
       font-family: var(--font-sans);
       font-size: 0.85rem;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       color: var(--text-muted);
     }
 
-    .venue-block {
-      margin: 24px 0 18px;
+    /* Venue Block */
+    .location-suite {
+      margin: 26px 0;
     }
 
-    .venue-title {
-      font-family: var(--font-sans);
+    .venue-name {
+      font-family: var(--font-display);
       font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 1.2px;
+      font-size: 1.05rem;
+      letter-spacing: 1.5px;
+      line-height: 1.6;
       text-transform: uppercase;
-      color: #1b1b1b;
+      color: #1f1b18;
+    }
+
+    .auspices-note {
+      font-style: italic;
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      margin-top: 14px;
       line-height: 1.6;
     }
 
-    .ceremony-note {
+    .compliments-section {
+      margin-top: 30px;
       font-style: italic;
       font-size: 1.05rem;
       color: var(--text-muted);
-      margin-top: 14px;
-      line-height: 1.5;
     }
 
-    .wishes-block {
-      margin-top: 26px;
-      font-style: italic;
-      font-size: 1.05rem;
-      color: #444;
-    }
-
-    .wishes-names {
+    .compliments-family {
       font-family: var(--font-body);
-      font-weight: 600;
       font-style: normal;
-      font-size: 1.15rem;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #1f1b18;
       margin-top: 4px;
-      color: #111;
     }
 
-    /* Actions & Buttons */
-    .btn-group {
+    /* Action Suite (Maps, RSVP, Audio) */
+    .action-row {
       display: flex;
       justify-content: center;
-      gap: 14px;
-      margin-top: 30px;
+      gap: 16px;
+      margin-top: 36px;
       flex-wrap: wrap;
     }
 
-    .action-btn {
+    .btn-gold {
+      background: linear-gradient(135deg, #b88636 0%, #a4762c 100%);
+      color: #fff;
       font-family: var(--font-sans);
-      font-size: 0.78rem;
-      letter-spacing: 1.2px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 25px;
+      font-weight: 500;
+      padding: 13px 28px;
+      border-radius: 30px;
+      border: none;
       cursor: pointer;
       text-decoration: none;
+      box-shadow: 0 6px 18px rgba(164, 118, 44, 0.28);
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
 
-    .btn-primary {
-      background: var(--periwinkle-deep);
-      color: #fff;
-      border: 1px solid var(--periwinkle-deep);
-      box-shadow: 0 4px 12px rgba(84, 116, 166, 0.25);
-    }
-
-    .btn-primary:hover {
-      background: #415d88;
-      box-shadow: 0 6px 16px rgba(84, 116, 166, 0.35);
+    .btn-gold:hover {
       transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(164, 118, 44, 0.4);
+      background: linear-gradient(135deg, #c4923e 0%, #b07e32 100%);
     }
 
-    .btn-outline {
+    .btn-glass {
       background: transparent;
-      color: var(--periwinkle-deep);
-      border: 1px solid var(--periwinkle-deep);
+      color: var(--gold-primary);
+      border: 1px solid var(--gold-primary);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 13px 26px;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
 
-    .btn-outline:hover {
-      background: rgba(168, 191, 224, 0.15);
+    .btn-glass:hover {
+      background: rgba(184, 145, 80, 0.1);
       transform: translateY(-2px);
     }
 
-    /* Interactive RSVP Modal */
-    .modal-overlay {
+    /* Modal Styling */
+    .rsvp-modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(4px);
+      background: rgba(30, 24, 20, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 120;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 100;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s ease;
     }
 
-    .modal-overlay.active {
+    .rsvp-modal.active {
       opacity: 1;
       pointer-events: auto;
     }
 
     .modal-card {
       background: #fff;
-      width: 90%;
       max-width: 440px;
-      padding: 30px 25px;
-      border-radius: 10px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      width: 90%;
+      border-radius: 8px;
+      padding: 35px 28px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.25);
       text-align: left;
     }
 
     .modal-card h3 {
-      font-family: var(--font-sans);
-      font-size: 1.1rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 15px;
-      color: var(--periwinkle-deep);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
       text-align: center;
+      margin-bottom: 20px;
+      text-transform: uppercase;
     }
 
-    .form-group {
-      margin-bottom: 14px;
+    .field {
+      margin-bottom: 16px;
     }
 
-    .form-group label {
+    .field label {
       display: block;
       font-family: var(--font-sans);
-      font-size: 0.8rem;
-      margin-bottom: 5px;
-      color: #555;
+      font-size: 0.76rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #666;
     }
 
-    .form-group input, .form-group select {
+    .field input, .field select {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       border: 1px solid #ddd;
-      border-radius: 6px;
+      border-radius: 5px;
       font-family: var(--font-sans);
       font-size: 0.9rem;
     }
 
-    /* Keyframe Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes gentleRise {
+      from { opacity: 0; transform: translateY(35px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 520px) {
-      .card-wrapper {
-        padding: 35px 20px;
-      }
-      .couple-name {
-        font-size: 2.8rem;
-      }
-      .event-schedule {
-        gap: 10px;
-      }
-      .schedule-side {
-        font-size: 0.8rem;
-      }
+    @media (max-width: 600px) {
+      .card-deck { padding: 45px 22px; }
+      .schedule-day, .schedule-time { font-size: 0.8rem; }
+      .schedule-bar { gap: 10px; }
+      .schedule-center-badge { padding: 0 12px; }
     }
   </style>
 </head>
@@ -401,181 +545,255 @@
 
   <canvas id="petal-canvas"></canvas>
 
-  <main class="card-wrapper">
-    <section class="verse">
-      “The Lord has made everything beautiful in his time”
-      <span>Ecclesiastes 3:11</span>
-    </section>
+  <section class="opener-portal" id="portalOpener">
+    <div class="arch-backdrop"></div>
 
-    <section class="family-block">
-      <div class="parents">S/o Mr. Shaju K.J and Mrs. Shiji Shaju</div>
-      <div class="address">Kollamkudiyil(H), Kunnackal P.O, Valakom,<br>Muvattupuzha, Ernakulam</div>
-    </section>
+    <svg class="arch-svg-frame" viewBox="0 0 500 700">
+      <path d="M 70,700 L 70,250 A 180,180 0 0,1 430,250 L 430,700" />
+      <path d="M 85,700 L 85,250 A 165,165 0 0,1 415,250 L 415,700" stroke-dasharray="4,4" />
+      <circle cx="250" cy="85" r="7" fill="var(--gold-primary)" />
+      <path d="M 40,700 L 460,700 M 55,675 L 445,675 M 70,650 L 430,650" />
+    </svg>
 
-    <div class="invitation-call">
-      Solicit your prayers and presence with your family on the<br>occasion of the marriage of our son
+    <div class="opener-content">
+      <div class="opener-tagline">Together with their families</div>
+      <h1 class="opener-names">Bennet<span class="opener-ampersand">&</span>Achsah</h1>
+      <div class="opener-date-badge">19 • SEPTEMBER • 2026</div>
+
+      <div class="wax-seal-wrapper" id="openInvitationTrigger" title="Tap to enter celebration">
+        <div class="pulse-ring"></div>
+        <div class="wax-seal"></div>
+        <div class="seal-caption">Tap to Open</div>
+      </div>
     </div>
+  </section>
 
-    <section class="names-section">
-      <div class="couple-name">Bennet Jacob Shaju</div>
-      <span class="ampersand">&</span>
-      <div class="couple-name">Achsah Saji</div>
-    </section>
+  <main class="invitation-container">
+    <article class="card-deck">
+      
+      <section class="verse-header">
+        “The Lord has made everything beautiful in his time”
+        <span class="verse-ref">ECCLESIASTES 3:11</span>
+      </section>
 
-    <section class="family-block">
-      <div class="parents">Mr. Saji Samuel(Late) and Mrs. Sheeba Saji</div>
-      <div class="address">Saji Bhavan, Kumaramkarikkom, Kulathupuzha P. O,<br>Kollam</div>
-    </section>
-
-    <section class="event-schedule">
-      <div class="schedule-side">Saturday</div>
-      <div class="schedule-center">
-        <div class="month-badge">SEP</div>
-        <div class="date-num">19</div>
-        <div class="year-badge">2026</div>
+      <div class="parents-section">
+        <div class="parents-names">S/o Mr. Shaju K.J and Mrs. Shiji Shaju</div>
+        <div class="parents-place">Kollamkudiyil(H), Kunnackal P.O, Valakom,<br>Muvattupuzha, Ernakulam</div>
       </div>
-      <div class="schedule-side">At 10:30 AM</div>
-    </section>
 
-    <section class="venue-block">
-      <div class="venue-title">
-        At Warrier Foundation, Kaivalya Event Center,<br>
-        Mazhuvannoor, Kolenchery, Ernakulam
+      <p class="invitation-honor">
+        Solicit your prayers and presence with your family on the<br>
+        occasion of the marriage of our son
+      </p>
+
+      <div class="main-names-wrapper">
+        <h2 class="script-name">Bennet Jacob Shaju</h2>
+        <span class="couple-joiner">&</span>
+        <h2 class="script-name">Achsah Saji</h2>
       </div>
-      <div class="ceremony-note">
-        Under the auspices of Ebenezer Brethren Church, Kunnackal<br>
-        and thereafter for the reception at the same venue
+
+      <div class="parents-section">
+        <div class="parents-names">Mr. Saji Samuel (Late) and Mrs. Sheeba Saji</div>
+        <div class="parents-place">Saji Bhavan, Kumaramkarikkom, Kulathupuzha P. O,<br>Kollam</div>
       </div>
-    </section>
 
-    <section class="wishes-block">
-      Best wishes and compliments from
-      <div class="wishes-names">Shalu, Femi & Nathan</div>
-    </section>
+      <div class="schedule-bar">
+        <div class="schedule-day">Saturday</div>
+        <div class="schedule-center-badge">
+          <div class="cal-month">SEP</div>
+          <div class="cal-day">19</div>
+          <div class="cal-year">2026</div>
+        </div>
+        <div class="schedule-time">10:30 AM</div>
+      </div>
 
-    <div class="btn-group">
-      <a href="https://maps.google.com/?q=Warrier+Foundation+Kaivalya+Event+Center+Mazhuvannoor+Kolenchery" target="_blank" class="action-btn btn-primary">
-        📍 View Location
-      </a>
-      <button class="action-btn btn-outline" id="rsvp-trigger">
-        ✉️ RSVP
-      </button>
-    </div>
+      <div class="location-suite">
+        <div class="venue-name">
+          Warrier Foundation, Kaivalya Event Center,<br>
+          Mazhuvannoor, Kolenchery, Ernakulam
+        </div>
+        <div class="auspices-note">
+          Under the auspices of Ebenezer Brethren Church, Kunnackal<br>
+          and thereafter for the reception at the same venue
+        </div>
+      </div>
+
+      <div class="compliments-section">
+        Best wishes and compliments from
+        <div class="compliments-family">Shalu, Femi & Nathan</div>
+      </div>
+
+      <div class="action-row">
+        <a href="https://maps.google.com/?q=Warrier+Foundation+Kaivalya+Event+Center+Mazhuvannoor+Kolenchery" target="_blank" class="btn-gold">
+          <span>📍</span> View Location
+        </a>
+        <button class="btn-glass" id="openRsvpBtn">
+          ✉️ Send RSVP
+        </button>
+      </div>
+    </article>
   </main>
 
-  <div class="modal-overlay" id="rsvp-modal">
+  <div class="rsvp-modal" id="rsvpModal">
     <div class="modal-card">
       <h3>RSVP</h3>
-      <form id="rsvp-form" onsubmit="handleRsvpSubmit(event)">
-        <div class="form-group">
-          <label for="guest-name">Your Full Name</label>
-          <input type="text" id="guest-name" required placeholder="John Doe">
+      <form id="rsvpForm" onsubmit="submitRsvp(event)">
+        <div class="field">
+          <label>Your Full Name</label>
+          <input type="text" required placeholder="Guest Name">
         </div>
-        <div class="form-group">
-          <label for="attending-status">Will you attend?</label>
-          <select id="attending-status">
-            <option value="joyfully-attends">Joyfully Accepts</option>
-            <option value="regretfully-declines">Regretfully Declines</option>
+        <div class="field">
+          <label>Attendance Status</label>
+          <select>
+            <option>Joyfully Accepts</option>
+            <option>Regretfully Declines</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="guest-count">Number of Attendees</label>
-          <input type="number" id="guest-count" min="1" max="10" value="1">
+        <div class="field">
+          <label>Number of Guests</label>
+          <input type="number" min="1" max="8" value="1">
         </div>
-        <div class="btn-group" style="margin-top: 15px;">
-          <button type="submit" class="action-btn btn-primary">Send Response</button>
-          <button type="button" class="action-btn btn-outline" id="rsvp-close">Close</button>
+        <div class="action-row" style="margin-top: 15px;">
+          <button type="submit" class="btn-gold" style="flex:1;">Submit</button>
+          <button type="button" class="btn-glass" id="closeRsvpBtn">Close</button>
         </div>
       </form>
     </div>
   </div>
 
   <script>
-    // --- Falling Watercolor Petal Simulation ---
+    // ==========================================
+    // 1. OPENER UNVEILING TRANSITION LOGIC
+    // ==========================================
+    const portal = document.getElementById('portalOpener');
+    const trigger = document.getElementById('openInvitationTrigger');
+
+    trigger.addEventListener('click', () => {
+      // Trigger cinematic zoom-dissolve
+      portal.classList.add('unveiled');
+
+      // Play chime/ambient tone if needed
+      playHarmonicChime();
+    });
+
+    // Optional subtle audio synthesizer chime using Web Audio API (No external mp3 required)
+    function playHarmonicChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.frequency.value = freq;
+          osc.type = 'sine';
+
+          gain.gain.setValueAtTime(0.06, ctx.currentTime + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 2.5 + i * 0.12);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.12);
+          osc.stop(ctx.currentTime + 2.8 + i * 0.12);
+        });
+      } catch (e) {
+        console.log("Audio not enabled on click:", e);
+      }
+    }
+
+    // ==========================================
+    // 2. WATERCOLOR PETAL PHYSICS SIMULATION
+    // ==========================================
     const canvas = document.getElementById('petal-canvas');
     const ctx = canvas.getContext('2d');
 
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
 
     window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
     });
 
-    class Petal {
+    class FallingPetal {
       constructor() {
-        this.reset();
+        this.reseed();
       }
 
-      reset() {
-        this.x = Math.random() * width;
+      reseed() {
+        this.x = Math.random() * w;
         this.y = -20;
-        this.size = Math.random() * 8 + 6;
-        this.speedX = Math.random() * 1.5 - 0.75;
-        this.speedY = Math.random() * 1.2 + 0.8;
-        this.angle = Math.random() * 360;
-        this.spin = Math.random() * 1.5 - 0.75;
-        // Soft periwinkle shades
-        const shades = [
-          'rgba(168, 191, 224, 0.45)',
-          'rgba(196, 215, 237, 0.5)',
-          'rgba(130, 160, 204, 0.35)'
+        this.size = Math.random() * 8 + 5;
+        this.speedX = Math.random() * 1.6 - 0.8;
+        this.speedY = Math.random() * 1.3 + 0.8;
+        this.rotation = Math.random() * 360;
+        this.spinSpeed = Math.random() * 1.8 - 0.9;
+        
+        // Delicate palette: Rose pink, ivory, and periwinkle hints
+        const tints = [
+          'rgba(235, 178, 187, 0.55)',
+          'rgba(242, 203, 209, 0.45)',
+          'rgba(182, 198, 222, 0.40)',
+          'rgba(255, 235, 230, 0.60)'
         ];
-        this.color = shades[Math.floor(Math.random() * shades.length)];
+        this.tint = tints[Math.floor(Math.random() * tints.length)];
       }
 
       update() {
-        this.x += this.speedX;
+        this.x += this.speedX + Math.sin(this.rotation * 0.02) * 0.4;
         this.y += this.speedY;
-        this.angle += this.spin;
+        this.rotation += this.spinSpeed;
 
-        if (this.y > height + 20 || this.x < -20 || this.x > width + 20) {
-          this.reset();
+        if (this.y > h + 30 || this.x < -30 || this.x > w + 30) {
+          this.reseed();
         }
       }
 
-      draw() {
+      render() {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate((this.angle * Math.PI) / 180);
-        ctx.fillStyle = this.color;
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.fillStyle = this.tint;
         ctx.beginPath();
-        // Teardrop petal geometry
-        ctx.ellipse(0, 0, this.size, this.size * 1.6, 0, 0, Math.PI * 2);
+        // Organic petal contour
+        ctx.moveTo(0, -this.size);
+        ctx.quadraticCurveTo(this.size, -this.size * 0.4, 0, this.size * 1.4);
+        ctx.quadraticCurveTo(-this.size, -this.size * 0.4, 0, -this.size);
         ctx.fill();
         ctx.restore();
       }
     }
 
-    const petals = Array.from({ length: 28 }, () => new Petal());
+    const petals = Array.from({ length: 32 }, () => new FallingPetal());
 
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      petals.forEach((petal) => {
-        petal.update();
-        petal.draw();
+    function loop() {
+      ctx.clearRect(0, 0, w, h);
+      petals.forEach((p) => {
+        p.update();
+        p.render();
       });
-      requestAnimationFrame(animate);
+      requestAnimationFrame(loop);
     }
-    animate();
+    loop();
 
-    // --- RSVP Modal Logic ---
-    const modal = document.getElementById('rsvp-modal');
-    const openBtn = document.getElementById('rsvp-trigger');
-    const closeBtn = document.getElementById('rsvp-close');
+    // ==========================================
+    // 3. RSVP MODAL INTERACTIONS
+    // ==========================================
+    const rsvpModal = document.getElementById('rsvpModal');
+    const openRsvpBtn = document.getElementById('openRsvpBtn');
+    const closeRsvpBtn = document.getElementById('closeRsvpBtn');
 
-    openBtn.addEventListener('click', () => modal.classList.add('active'));
-    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
+    openRsvpBtn.addEventListener('click', () => rsvpModal.classList.add('active'));
+    closeRsvpBtn.addEventListener('click', () => rsvpModal.classList.remove('active'));
+    rsvpModal.addEventListener('click', (e) => {
+      if (e.target === rsvpModal) rsvpModal.classList.remove('active');
     });
 
-    function handleRsvpSubmit(e) {
+    function submitRsvp(e) {
       e.preventDefault();
-      const guest = document.getElementById('guest-name').value;
-      alert(`Thank you, ${guest}! Your response has been recorded.`);
-      modal.classList.remove('active');
+      alert("Thank you! Your RSVP has been graciously received.");
+      rsvpModal.classList.remove('active');
     }
   </script>
 </body>
